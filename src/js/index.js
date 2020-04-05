@@ -67,12 +67,88 @@ class Visual {
     document
       .querySelector('#file')
       .addEventListener('change', function (event) {
+        var input, canvas, context, output;
+        input = document.getElementById('file');
+        canvas = document.getElementById('canvas');
+        context = canvas.getContext('2d');
+        output = document.getElementById('output');
+
+        var reader = new FileReader();
+
+        reader.addEventListener('loadend', function (arg) {
+          var src_image = new Image();
+
+          src_image.onload = function () {
+            canvas.height = src_image.height;
+            canvas.width = src_image.width;
+            context.drawImage(src_image, 0, 0);
+            var imageData = canvas.toDataURL('image/png');
+            output.src = imageData;
+            uploadCanvas(imageData).then((res) => {
+              var { res, formData } = res;
+              clearContent('.detect-detail__left-figure');
+              const mainSrc = URL.createObjectURL(event.target.files[0]);
+              let markup = `<img class="main-detect" src="${mainSrc}" alt="detect" />`;
+              const detectObj = res.data.boxes;
+              const labels = res.data.labels;
+              let labelHTML = '';
+
+              detectObj.forEach((obj, i) => {
+                markup += `<div class="detect-obj detect-obj--${i + 1} ${
+                  i === 0 ? 'active' : ''
+                }" style="width: ${Math.ceil(obj.width)}px; height: ${Math.ceil(
+                  obj.height
+                )}px; top: ${Math.ceil(obj.y)}px; left: ${Math.ceil(
+                  obj.x
+                )}px; z-index: 1">
+                            <a class="detect-obj__link" href="#" data-related="${
+                              labels[i]
+                            }">${i + 1}</a>
+                          </div>`;
+              });
+
+              labels.forEach((label, i) => {
+                labelHTML += `<li class="detect__item${
+                  i === 0 ? ' active' : ''
+                }" data-related="${label}">
+                              <span class="detect__num">${i + 1}</span>
+                              <span class="detect__text">${label}</span>
+                            </li>`;
+              });
+
+              $('.detect__list').html(labelHTML);
+              $('.category-title__text').text(
+                $('.detect__item.active .detect__text').text()
+              );
+
+              document
+                .querySelector('.detect-detail__left-figure')
+                .insertAdjacentHTML('beforeend', markup);
+
+              const detectActive = $('.detect-obj.active');
+              const width = detectActive.css('width').replace('px', '');
+              const height = detectActive.css('height').replace('px', '');
+              const x = detectActive.css('left').replace('px', '');
+              const y = detectActive.css('top').replace('px', '');
+
+              showRelated(x, y, width, height, formData).then((data) => {
+                $('.vs-search__detect').addClass('show');
+                toggleLoader(false);
+              });
+            });
+          };
+
+          src_image.src = this.result;
+        });
+
+        reader.readAsDataURL(this.files[0]);
+
         event.preventDefault();
         if (!this.value) {
           return;
         }
         toggleLoader(true);
-        var formData = new FormData();
+        /*var formData = new FormData();
         var imagefile = this;
         formData.append('image', imagefile.files[0]);
         axios
@@ -135,7 +211,7 @@ class Visual {
           })
           .catch((err) => {
             console.log(err);
-          });
+          });*/
       });
   }
 }
@@ -283,4 +359,72 @@ function showRelated(x, y, width, height, formData) {
         console.log(err);
       });
   });
+}
+
+function clickFigure() {
+  // from an input element
+  var filesToUpload = input.files;
+  var file = filesToUpload[0];
+
+  var img = document.createElement('img');
+  var reader = new FileReader();
+  reader.onload = function (e) {
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+
+  var MAX_WIDTH = 800;
+  var MAX_HEIGHT = 600;
+  var width = img.width;
+  var height = img.height;
+
+  if (width > height) {
+    if (width > MAX_WIDTH) {
+      height *= MAX_WIDTH / width;
+      width = MAX_WIDTH;
+    }
+  } else {
+    if (height > MAX_HEIGHT) {
+      width *= MAX_HEIGHT / height;
+      height = MAX_HEIGHT;
+    }
+  }
+  canvas.width = width;
+  canvas.height = height;
+  var ctx = canvas.getContext('2d');
+  ctx.drawImage(img, 0, 0, width, height);
+
+  var dataurl = canvas.toDataURL('image/png');
+
+  //Post dataurl to the server with AJAX
+}
+
+function uploadCanvas(dataURL) {
+  var blobBin = atob(dataURL.split(',')[1]);
+  var array = [];
+  for (var i = 0; i < blobBin.length; i++) {
+    array.push(blobBin.charCodeAt(i));
+  }
+  var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
+  var formData = new FormData();
+  formData.append('image', file);
+
+  return axios
+    .post(`${_CORS_}${_DETECT_}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((res) => {
+      return {
+        formData,
+        res,
+      };
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }

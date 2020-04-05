@@ -317,6 +317,15 @@ body {
   .detect-detail-right h5 {
     margin-bottom: 10px; }
 
+#output {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400;
+  height: 600;
+  object-fit: cover;
+  visibility: hidden; }
+
 .vs-container {
   max-width: 1140px;
   width: 100%;

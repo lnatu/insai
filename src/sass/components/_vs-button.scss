@@ -1,0 +1,28 @@
+.vs-theme-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  background-color: $color-theme;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all .2s;
+  cursor: pointer;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: darken($color-theme, 10%);
+  }
+
+  img {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -1,0 +1,29 @@
+.vs-search {
+  &__try {
+    display: flex;
+    margin: 0 -5px;
+    margin-top: 2rem;
+
+    &-figure {
+      flex: 1;
+      height: 225px;
+      margin: 0 5px;
+      border-radius: 5px;
+      overflow: hidden;
+      transition: transform .2s;
+      backface-visibility: hidden;
+      cursor: pointer;
+
+      &:hover {
+          transform: scale(1.1);
+      }
+
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

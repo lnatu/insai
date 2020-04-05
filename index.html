@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual Search Demo</title>
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Baloo+Chettan+2:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="src/css/cropper.min.css" />
+    <link rel="stylesheet" href="public/css/style.css" />
+  </head>
+  <body>
+    <main id="vsd">
+      <section class="vs-container">
+        <div class="vs-search">
+          <h1 class="vs-text-center">Visual Search Demo</h1>
+          <div class="vs-search__content">
+            <div class="vs-search__upload">
+              <input id="file" type="file" />
+              <button type="submit" class="vs-theme-btn upload-btn">
+                Upload an Image
+                <img src="public/img/upload-icon.svg" alt="upload icon" />
+              </button>
+            </div>
+            <div class="vs-search__text">or</div>
+            <div class="vs-search__url">
+              <div class="vs-search__group">
+                <input
+                  class="vs-input-url"
+                  type="text"
+                  placeholder="Place image URL here"
+                />
+                <button
+                  class="vs-btn-submit vs-theme-btn"
+                  class="vs-theme-btn"
+                  type="button"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="vs-search__try">
+          </div>
+          <div class="vs-search__detect">
+            <h4>Detected categories</h4>
+            <ul class="detect__list">
+            </ul>
+            <div class="detect-detail">
+              <div class="detect-detail__left">
+                <figure class="detect-detail__left-figure">
+                  <!-- <img class="main-detect" src="public/img/try/try-demo-lg.jpg" alt="detect" /> -->
+
+                  <!-- <div class="detect-obj detect-obj--1 active">
+                    <a class="detect-obj__link" href="#" data-related="dress"
+                      >1</a
+                    >
+                  </div>
+                  <div class="detect-obj detect-obj--2">
+                    <a class="detect-obj__link" href="#" data-related="bag"
+                      >2</a
+                    >
+                  </div>
+                  <div class="detect-obj detect-obj--3">
+                    <a class="detect-obj__link" href="#" data-related="shoes"
+                      >3</a
+                    >
+                  </div> -->
+
+                </figure>
+              </div>
+              <div class="detect-detail-right">
+                <h5 class="category-title">
+                  <strong>Category:</strong> <span class="category-title__text">Dress</span>
+                </h5>
+                <div class="detect-related">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <input id="image" type="hidden">
+
+    <section class="loader">
+      <img src="public/img/upload.svg" alt="spinner">
+    </section>
+    <script src="src/js/jquery.min.js"></script>
+    <script src="src/js/axios.min.js"></script>
+    <script src="src/js/cropper.min.js"></script>
+    <script src="src/js/index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,342 @@
+html {
+  box-sizing: border-box; }
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+body {
+  font-family: 'Baloo Chettan 2', cursive;
+  font-weight: 400; }
+
+html,
+body,
+p,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+blockquote,
+figure,
+fieldset,
+legend,
+textarea,
+pre,
+iframe,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%; }
+
+a {
+  text-decoration: none; }
+
+ul {
+  list-style: none; }
+
+button,
+input,
+select,
+textarea {
+  margin: 0; }
+
+img,
+video {
+  height: auto;
+  max-width: 100%;
+  min-height: 1px;
+  vertical-align: middle;
+  border-style: none; }
+
+iframe {
+  border: 0; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+td,
+th {
+  padding: 0; }
+
+td:not([align]),
+th:not([align]) {
+  text-align: left; }
+
+main {
+  display: block; }
+
+.mt-sm {
+  margin-top: 2rem; }
+
+.mb-sm {
+  margin-bottom: 2rem; }
+
+.mr-1 {
+  margin-right: 10px; }
+
+.fade {
+  transition: opacity 0.15s linear; }
+
+.fade:not(.show) {
+  opacity: 0; }
+
+.vs-text-center {
+  text-align: center !important; }
+
+/* COLORS */
+/* BREADCRUMB */
+.vs-theme-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  background-color: #52489C;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 5px;
+  transition: all .2s;
+  cursor: pointer; }
+  .vs-theme-btn:active, .vs-theme-btn:focus {
+    outline: none; }
+  .vs-theme-btn:hover {
+    background-color: #403879; }
+  .vs-theme-btn img {
+    margin-left: 10px;
+    width: 20px;
+    height: 20px; }
+
+.vs-search__try {
+  display: flex;
+  margin: 0 -5px;
+  margin-top: 2rem; }
+  .vs-search__try-figure {
+    flex: 1;
+    height: 225px;
+    margin: 0 5px;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: transform .2s;
+    backface-visibility: hidden;
+    cursor: pointer; }
+    .vs-search__try-figure:hover {
+      transform: scale(1.1); }
+    .vs-search__try-figure img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; }
+
+.vs-search h1 {
+  font-size: 3rem; }
+
+.vs-search__content {
+  display: flex;
+  align-items: center;
+  margin-top: 5rem; }
+
+.vs-search__upload {
+  flex: 0 0 15%; }
+
+.vs-search__text {
+  flex: 0 0 5%;
+  text-align: center; }
+
+.vs-search__url {
+  flex: 1; }
+
+.vs-search__group {
+  display: flex;
+  justify-content: space-between; }
+  .vs-search__group .vs-input-url {
+    flex: 0 0 90%;
+    border: 1px solid #52489C;
+    border-radius: 5px;
+    padding-left: 20px; }
+    .vs-search__group .vs-input-url:focus {
+      outline: none; }
+
+.vs-search__upload {
+  position: relative; }
+  .vs-search__upload input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0; }
+
+body {
+  overflow-x: hidden; }
+
+.vs-search__detect {
+  margin-top: 2rem; }
+  .vs-search__detect:not(.show) {
+    display: none; }
+
+.vs-search .detect__list {
+  margin-top: 1rem;
+  display: flex; }
+
+.vs-search .detect__item {
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+  border: 2px solid #8E9AAF;
+  cursor: pointer; }
+  .vs-search .detect__item:not(:last-child) {
+    margin-right: 10px; }
+
+.vs-search .detect__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #8E9AAF;
+  color: #fff;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%; }
+
+.vs-search .detect__text {
+  color: #8E9AAF;
+  font-weight: 600; }
+
+.vs-search .detect__item.active {
+  border-color: #52489C; }
+
+.vs-search .detect__item.active .detect__num {
+  background-color: #52489C; }
+
+.vs-search .detect__item.active .detect__text {
+  color: #52489C; }
+
+.vs-search .detect-detail {
+  margin-top: 2rem;
+  display: flex;
+  box-shadow: 0 0 10px #ababab; }
+  .vs-search .detect-detail__left {
+    margin-top: 2rem;
+    flex: 0 0 50%; }
+    .vs-search .detect-detail__left-figure {
+      margin: auto;
+      width: 400px;
+      height: 600px;
+      position: relative; }
+      .vs-search .detect-detail__left-figure img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; }
+
+.detect-obj {
+  position: absolute;
+  border: 2px solid #b6bfc8;
+  border-radius: 5px;
+  background-color: #52489C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+  z-index: 5; }
+  .detect-obj:not(.active) {
+    background-color: transparent;
+    border: none;
+    opacity: 1; }
+  .detect-obj--1 {
+    top: 35%;
+    left: 35%;
+    width: 120px;
+    height: 260px; }
+  .detect-obj--2 {
+    top: 67%;
+    left: 50%;
+    width: 100px;
+    height: 100px; }
+  .detect-obj--3 {
+    top: 88%;
+    left: 29%;
+    width: 50px;
+    height: 50px; }
+
+.detect-obj__link {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #6c798c;
+  color: #fff;
+  font-weight: 700;
+  border: 2px solid #b6bfc8;
+  z-index: 5; }
+  .detect-obj__link--1 {
+    top: 55%;
+    left: 45%; }
+  .detect-obj__link--2 {
+    top: 70%;
+    left: 60%; }
+  .detect-obj__link--3 {
+    top: 89%;
+    left: 32%; }
+
+.detect-related {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; }
+  .detect-related figure {
+    flex: 0 0 30%;
+    margin-bottom: 1rem; }
+    .detect-related figure a {
+      display: block;
+      width: 100%;
+      height: auto; }
+    .detect-related figure img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover; }
+
+.detect-detail-right {
+  padding-right: 25px;
+  padding-top: 25px; }
+  .detect-detail-right h5 {
+    margin-bottom: 10px; }
+
+.vs-container {
+  max-width: 1140px;
+  width: 100%;
+  margin: auto; }
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5); }
+  .loader:not(.show) {
+    display: none; }
+
+img {
+  display: block;
+  /* This rule is very important, please don't ignore this */
+  max-width: 100%; }

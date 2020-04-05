@@ -1,0 +1,28 @@
+.vs-container {
+  max-width: 1140px;
+  width: 100%;
+  margin: auto;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  &:not(.show) {
+    display: none;
+  }
+}
+img {
+  display: block;
+
+  /* This rule is very important, please don't ignore this */
+  max-width: 100%;
+}

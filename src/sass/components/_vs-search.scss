@@ -1,0 +1,54 @@
+.vs-search {
+  h1 {
+    font-size: 3rem;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    margin-top: 5rem;
+  }
+
+  &__upload {
+    flex: 0 0 15%;
+  }
+
+  &__text {
+    flex: 0 0 5%;
+    text-align: center;
+  }
+
+  &__url {
+    flex: 1;
+  }
+
+  &__group {
+    display: flex;
+    justify-content: space-between;
+    .vs-input-url {
+      flex: 0 0 90%;
+      border: 1px solid $color-theme;
+      border-radius: 5px;
+      padding-left: 20px;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
+
+.vs-search__upload {
+  position: relative;
+
+  input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+}
+
+body {
+  overflow-x: hidden;
+}

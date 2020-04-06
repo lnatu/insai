@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch:sass": "node-sass src/sass/main.scss public/css/style.css -w",
+    "watch:sass": "node-sass src/sass/main.scss static/public/css/style.css -w",
     "devserver": "live-server",
-    "browsersync": "browser-sync start --server --files \"*.html, src/js/*.js, public/css/*.css\"",
+    "browsersync": "browser-sync start --server --files \"templates/*.html, src/js/*.js, static/public/css/*.css\"",
     "start": "npm-run-all --parallel browsersync watch:sass"
   },
   "repository": {

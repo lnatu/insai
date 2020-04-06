@@ -49,7 +49,7 @@ class Visual {
     this.getAllImages().then((image) => {
       image.forEach((img, i) => {
         markup += `<figure class="vs-search__try-figure">
-                    <img class="top-img" src="${img}" alt="demo" />
+                    <img crossorigin="anonymous" class="top-img" src="${img}" alt="demo" />
                   </figure>`;
       });
       document
@@ -60,13 +60,19 @@ class Visual {
   }
 
   showProduct() {
-    // this.getProductById('id').then(data => console.log(data));
   }
 
   upload() {
     document
       .querySelector('#file')
       .addEventListener('change', function (event) {
+        event.preventDefault();
+
+        if (!this.value) {
+          return;
+        }
+
+        toggleLoader(true);
         var input, canvas, context, output;
         input = document.getElementById('file');
         canvas = document.getElementById('canvas');
@@ -74,6 +80,7 @@ class Visual {
         output = document.getElementById('output');
 
         var reader = new FileReader();
+        reader.readAsDataURL(this.files[0]);
 
         reader.addEventListener('loadend', function (arg) {
           var src_image = new Image();
@@ -140,14 +147,6 @@ class Visual {
 
           src_image.src = this.result;
         });
-
-        reader.readAsDataURL(this.files[0]);
-
-        event.preventDefault();
-        if (!this.value) {
-          return;
-        }
-        toggleLoader(true);
       });
   }
 }
@@ -302,7 +301,7 @@ function clickFigure() {
   var filesToUpload = input.files;
   var file = filesToUpload[0];
 
-  var img = document.createElement('img');
+  var img = this;
   var reader = new FileReader();
   reader.onload = function (e) {
     img.src = e.target.result;
@@ -364,3 +363,75 @@ function uploadCanvas(dataURL) {
       console.log(err);
     });
 }
+
+document.querySelector('.vs-container').addEventListener('click', function (e) {
+  if ($(e.target).hasClass('top-img')) {
+    e.preventDefault();
+    toggleLoader(true);
+
+    var input, canvas, context, output;
+    input = document.getElementById('file');
+    canvas = document.getElementById('canvas');
+    context = canvas.getContext('2d');
+    output = document.getElementById('output');
+
+    canvas.height = 600;
+    canvas.width = 400;
+    context.drawImage(e.target, 0, 0, 400, 600);
+    var imageData = canvas.toDataURL('image/png');
+    output.src = imageData;
+    uploadCanvas(imageData).then((res) => {
+      var { res, formData } = res;
+      clearContent('.detect-detail__left-figure');
+      const mainSrc = imageData;
+      let markup = `<img class="main-detect" src="${mainSrc}" alt="detect" />`;
+      const detectObj = res.data.boxes;
+      const labels = res.data.labels;
+      let labelHTML = '';
+      console.log(markup);
+
+      detectObj.forEach((obj, i) => {
+        markup += `<div class="detect-obj detect-obj--${i + 1} ${
+          i === 0 ? 'active' : ''
+        }" style="width: ${Math.ceil(obj.width)}px; height: ${Math.ceil(
+          obj.height
+        )}px; top: ${Math.ceil(obj.y)}px; left: ${Math.ceil(
+          obj.x
+        )}px; z-index: 1">
+                            <a class="detect-obj__link" href="#" data-related="${
+                              labels[i]
+                            }">${i + 1}</a>
+                          </div>`;
+      });
+
+      labels.forEach((label, i) => {
+        labelHTML += `<li class="detect__item${
+          i === 0 ? ' active' : ''
+        }" data-related="${label}">
+                              <span class="detect__num">${i + 1}</span>
+                              <span class="detect__text">${label}</span>
+                            </li>`;
+      });
+
+      $('.detect__list').html(labelHTML);
+      $('.category-title__text').text(
+        $('.detect__item.active .detect__text').text()
+      );
+
+      document
+        .querySelector('.detect-detail__left-figure')
+        .insertAdjacentHTML('beforeend', markup);
+
+      const detectActive = $('.detect-obj.active');
+      const width = detectActive.css('width').replace('px', '');
+      const height = detectActive.css('height').replace('px', '');
+      const x = detectActive.css('left').replace('px', '');
+      const y = detectActive.css('top').replace('px', '');
+
+      showRelated(x, y, width, height, formData).then((data) => {
+        $('.vs-search__detect').addClass('show');
+        toggleLoader(false);
+      });
+    });
+  }
+});

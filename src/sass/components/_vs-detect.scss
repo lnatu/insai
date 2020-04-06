@@ -181,8 +181,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 400;
-  height: 600;
+  width: 400px;
+  height: 600px;
   object-fit: cover;
   visibility: hidden;
+  z-index: -99;
 }

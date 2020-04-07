@@ -59,8 +59,7 @@ class Visual {
     });
   }
 
-  showProduct() {
-  }
+  showProduct() {}
 
   upload() {
     document
@@ -78,6 +77,7 @@ class Visual {
         canvas = document.getElementById('canvas');
         context = canvas.getContext('2d');
         output = document.getElementById('output');
+        var imagefile = this;
 
         var reader = new FileReader();
         reader.readAsDataURL(this.files[0]);
@@ -91,7 +91,7 @@ class Visual {
             context.drawImage(src_image, 0, 0);
             var imageData = canvas.toDataURL('image/png');
             output.src = imageData;
-            uploadCanvas(imageData).then((res) => {
+            uploadCanvas(imageData, true).then((res) => {
               var { res, formData } = res;
               clearContent('.detect-detail__left-figure');
               const mainSrc = URL.createObjectURL(event.target.files[0]);
@@ -107,7 +107,7 @@ class Visual {
                   obj.height
                 )}px; top: ${Math.ceil(obj.y)}px; left: ${Math.ceil(
                   obj.x
-                )}px; z-index: 1">
+                )}px; z-index: 2">
                             <a class="detect-obj__link" href="#" data-related="${
                               labels[i]
                             }">${i + 1}</a>
@@ -169,8 +169,10 @@ function initEvents() {
       if (e.target.className === 'detect-obj__link') {
         removeDetectActive();
         removeTagActive();
+        $('.detect-obj').css('z-index', 2);
         var _this = e.target;
         var target = _this.dataset.related;
+        _this.parentElement.style.zIndex = 1;
         _this.parentElement.classList.add('active');
         selectSingle('[data-related="' + target + '"]').classList.add('active');
         updateCategoryText(target);
@@ -337,7 +339,7 @@ function clickFigure() {
   //Post dataurl to the server with AJAX
 }
 
-function uploadCanvas(dataURL) {
+function uploadCanvas(dataURL, formFile = false) {
   var blobBin = atob(dataURL.split(',')[1]);
   var array = [];
   for (var i = 0; i < blobBin.length; i++) {
@@ -345,7 +347,12 @@ function uploadCanvas(dataURL) {
   }
   var file = new Blob([new Uint8Array(array)], { type: 'image/png' });
   var formData = new FormData();
-  formData.append('image', file);
+  var imagefile = document.querySelector('#file');
+  if (formFile) {
+    formData.append('image', imagefile.files[0]);
+  } else {
+    formData.append('image', file);
+  }
 
   return axios
     .post(`${_CORS_}${_DETECT_}`, formData, {
@@ -367,6 +374,7 @@ function uploadCanvas(dataURL) {
 document.querySelector('.vs-container').addEventListener('click', function (e) {
   if ($(e.target).hasClass('top-img')) {
     e.preventDefault();
+    var src = e.target.src;
     toggleLoader(true);
 
     var input, canvas, context, output;
@@ -383,7 +391,7 @@ document.querySelector('.vs-container').addEventListener('click', function (e) {
     uploadCanvas(imageData).then((res) => {
       var { res, formData } = res;
       clearContent('.detect-detail__left-figure');
-      const mainSrc = imageData;
+      const mainSrc = src;
       let markup = `<img class="main-detect" src="${mainSrc}" alt="detect" />`;
       const detectObj = res.data.boxes;
       const labels = res.data.labels;
